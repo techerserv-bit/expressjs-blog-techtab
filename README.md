@@ -1,2 +1,2 @@
-# expressjs-blog-techtab
-mern stack project using Expressjs
+# Expressjs-blog-pp
+Blog app in expressjs + ejs

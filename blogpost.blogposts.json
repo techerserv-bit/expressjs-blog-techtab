@@ -1,0 +1,8 @@
+[
+    {
+        "_id": "1",
+        "title": "Blog Issues to Resolve",
+        "description": "Add: 1. Timestamp 2. UserID (new feature to implement in the next big update) 3. Username (input, chosen name for post) 4. Hide the delete and edit features on the server, and only show them to a client with userID 5. Style the text on the home page in the card to look like html content 1. Done",
+        "timestamp":"28/10/2024 22:57:10"
+    }
+]

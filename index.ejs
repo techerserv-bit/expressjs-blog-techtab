@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>techtab</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body onload="onLoad()">
+    <%- include('public/partials/header.ejs') %>
+
+    <h1 class="title">Welcome to TechTab</h1>
+    <!-- Where the form starts, appear only if admin -->
+     <!-- Build in an check for the above, else display about page on home -->
+    <!-- Create if statement that onky shows this form to subscribers -->
+    <% if (locals) { %>
+    <div class="form-container">
+      <% if (locals.isEdit) { %>
+        <!-- TODO: Automate thos to say edit if it is an subscriber -->
+      <p class="form-text">Edit post</p>
+      <% }else{ %>
+        <!-- TODO: Automate thos to say edit if it is an subscriber -->
+      <p class="form-text">Create post</p>
+      <% } %>
+
+      <form
+        action="<%= locals.isEdit ? `/edit/${locals.blogDetails?.id}` : '/home' %>"
+        method="post"
+      >
+        <label for="bTitle">Post Title</label>
+        <input
+          type="text"
+          id="bTitle"
+          name="blogTitle"
+          placeholder="Your Title Here..."
+          required
+        />
+
+        <label for="bDes">Post contents</label>
+        <textarea
+          type="text"
+          id="bDes"
+          name="blogDes"
+          placeholder="Your Post here..."
+          rows="6"
+          required
+        >
+        </textarea>
+        <input
+          type="submit"
+          value="<%= locals.isEdit ? 'EDIT' : 'PUBLISH' %>"
+        />
+      </form>
+    </div>
+    <% }else{ %>
+      <div class="form-container">
+      <p>This must render pre-determined content</p>
+      <ol>
+        <li>This is the else block, which ooccurs because there is no db content to fetch </li>
+        <li>This should thus just display course content ("/course" route) if this block is returned</li>
+      </ol>
+
+      <span id="courseContent"></span>
+      
+      </div>
+      <%- include('public/partials/footer.ejs') %>
+    <% } %>
+    <!-- <%- include('public/partials/footer.ejs') %>    -->
+    <script src="/main.js" type="text/javascript">
+
+    </script> 
+  </body>
+</html>
