@@ -4,7 +4,7 @@ import { fileURLToPath } from "url";
 import bodyParser from "body-parser";
 
 const app = express();
-const port = 3000;
+const port = 7000;
 
 // Configure Express middleware
 app.use(express.static("public"));
