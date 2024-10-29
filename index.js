@@ -2,35 +2,12 @@ import express from "express";
 import { dirname, join } from "path";
 import { fileURLToPath } from "url";
 import bodyParser from "body-parser";
-import fs from "fs";
-import mongoose from "mongoose";
-import { timeStamp } from "console";
-import { title } from "process";
 
 const app = express();
-const port = process.env.PORT || 7000;
-
-// Connect to mongoDB
-mongoose.connect("mongodb://localhost:27017/").then(()=>{
-  console.log("MongoDB service running")
-}).catch((err)=>{
-  console.log(err);
-});
-
-// Schema
-const bPostsSchema = new mongoose.Schema({
-  title: String,
-  description: String,
-  timestamp: String
-})
-
-// Schema model
-const bPostModel = mongoose.model("blogposts", bPostsSchema);
-
+const port = 3000;
 
 // Configure Express middleware
 app.use(express.static("public"));
-
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // Define paths to view files
@@ -38,7 +15,6 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const indexPath = join(__dirname, "index.ejs");
 const homePath = join(__dirname, "views/home.ejs");
 const blogDetailsPath = join(__dirname, "views/blogDetails.ejs");
-const course = join(__dirname, "views/course.ejs");
 
 // Initialize blog list
 let blogList = [];
@@ -50,40 +26,9 @@ app.get("/", (req, res) => {
 
 // Render home page with blog list
 app.get("/home", (req, res) => {
-  const checklist = JSON.parse(fs.readFileSync(join(__dirname, 'data', 'checklist.json')));
-
- 
-  // Read the entire collection
-  bPostModel.find({})
-  .then(posts => {
-    // console.log('blogposts:', posts);
-    // const dbData = JSON.parse(posts)
-    res.render(homePath, {
-      // blogList: blogList,
-      checklist,
-      posts
-    });
-  })
-  .catch(error => {
-    console.log('Error fetching MongoDB collection:', error);
+  res.render(homePath, {
+    blogList: blogList,
   });
-  
-});
-
-// app.get("/course",(req,res) =>{
-//   res.render(course);
-// })
-
-app.get('/course', (req, res) => {
-    // Example data to pass to the view, if needed
-    // const exampleData = {
-    //     title: "Course Information",
-    //     description: "This is where course details will be displayed."
-    // };
-    const checklist = JSON.parse(fs.readFileSync(join(__dirname, 'data', 'checklist.json')));
-    // Render the index.ejs template with the route
-    // res.render('index', { route: req.originalUrl, exampleData });
-    res.render(course, {checklist});
 });
 
 // Add new blog
@@ -94,34 +39,10 @@ app.post("/home", (req, res) => {
     id: generateID(),
     title: blogTitle,
     description: blogDescription,
-    timestamp: new Date().toLocaleDateString() +" "+ new Date().toLocaleTimeString(),
   });
   res.render(homePath, {
     blogList: blogList,
   });
-  // Storing data
-
-  // bPostModel.create(post).then((data)=>{
-  //   console.log(data);
-  // }).catch((err)=>{
-  //   console.log(err)
-  // })
-  // Use the model to create a new user
-const newPost = new bPostModel({
-    title: blogTitle,
-    description: blogDescription,
-    timestamp: new Date().toLocaleDateString() +" "+ new Date().toLocaleTimeString()
-})
-  //{ title: 'John Doe',
-  // description: 'john.doe@example.com',
-  // timestamp: new Date().toLocaleDateString() +" "+ new Date().toLocaleTimeString()}
-
-
-// Save the user to the database
-newPost.save()
-  .then(() => console.log('User saved!'))
-  .catch((error) => console.log('Error saving user:', error));
-
 });
 
 // Delete a blog
