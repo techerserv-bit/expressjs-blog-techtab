@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>techtab</title>
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> -->
+    <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>tutorex</h1>
+        <p id="leadCourse">We at techtab offer online tutoring services in (up to NQF level 5) through our division, Tutorex, in the following subjects:</p>
+        <ul>
+            <li><strong>accounting</strong></li>
+            <li><strong>english as a foreign language (EFL)</strong></li>
+            <li><strong>mathematics</strong></li>
+        </ul>
+        <p>Tutoring sessions are flexible as they can be scheduled around your timetable.</p>
+        <p>In addition to our tutoring services, we recently launched a cloud-based course in accounting entitled - <em>Certificate: Accountacy & Bookkeeping</em>.</p>
+        <p id="courseObj">This course provides stuctured coursework, in line with QCTO's quidelines, that provides both theoretical and practical exposure to the field of accounting.</p>
+        <!-- <h2>Learning outcomes</h2> -->
+        <h3>The learning outcome areas (LOA) our course covers include:</h3>
+        <ul>
+            <% checklist.checklist.forEach(component => { %>
+                <li><strong><%= component.component %></strong>
+                    <!-- <ul> -->
+                        <!-- <% component.items.forEach(item => { %> -->
+                            <!-- <li><%= item %></li> -->
+                        <!-- <% }); %> -->
+                    <!-- </ul> -->
+                </li>
+            <% }); %>
+        </ul>
+        <p>The course duration is 6 months and provides a certificate confirming both attendance and competence over the learning outcome areas above.</p>
+    </div>
+</body>
+</html>
