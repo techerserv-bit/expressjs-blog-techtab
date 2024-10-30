@@ -33,7 +33,8 @@ const bPostsSchema = new mongoose.Schema({
   fid: String,
   title: String,
   description: String,
-  timestamp: String
+  timestamp: String,
+  author:String
 })
 
 // Schema model
@@ -69,6 +70,7 @@ app.get("/home", (req, res) => {
 app.post("/home", (req, res) => {
   const blogTitle = req.body.blogTitle;
   const blogDescription = req.body.blogDes;
+  const blogAuthor = req.body.blogAuthor;
 
   bPostModel.find({})
   .then(posts => {
@@ -80,8 +82,10 @@ app.post("/home", (req, res) => {
     // });
     res.render(homePath, {
       blogList: blogList,
-      posts
+      posts, 
     });
+
+    
   })
   .catch(error => {
     console.log('Error fetching MongoDB collection:', error);
@@ -91,18 +95,21 @@ app.post("/home", (req, res) => {
     fid: generateID(),
     title: blogTitle,
     description: blogDescription,
+    author: blogAuthor
   });
 
   const newPost = new bPostModel({
     title: blogTitle,
     description: blogDescription,
-    timestamp: new Date().toLocaleDateString() +" "+ new Date().toLocaleTimeString()
+    timestamp: new Date().toLocaleDateString() +" "+ new Date().toLocaleTimeString(),
+    author: blogAuthor
   })
 
   // Save the user to the database
   newPost.save()
-  .then(() => console.log('User saved!'))
+  .then(() => console.log('Document saved to mongoDB collection!'))
   .catch((error) => console.log('Error saving user:', error));
+  res.send('<script>window.location="/home";</script>')
 
 });
 

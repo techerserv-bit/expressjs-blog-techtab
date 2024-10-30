@@ -56,7 +56,7 @@
                         <div class="overflow-div">
                             <div class="home-container">
                                 <h1 class="title">
-                                    techtab posts
+                                    techtab blogs
                                 </h1>
                                 <% for( let index=0; index < posts.length; index++ ) { %>
                                     <div class="blog-card">
@@ -74,6 +74,9 @@
                                                     <% } %>
                                         </article>
                                         <h5>
+                                            <%= posts[index].author%>
+                                        </h5>
+                                        <h5>
                                             <%= posts[index].timestamp%>
                                         </h5>
                                     </div>
@@ -82,10 +85,10 @@
                         </div>    
                 
                     <% } else {%>
-                            <h1 class="title">techtab posts</h1>
+                            <h1 class="title">techtab blogs</h1>
                             <div class="overflow-div">
                                 <div class="home-container">
-                                    <h1>NO Cards here</h1>
+                                    <h1>Server connection lost - kindly contact <a>techserv20@gmail.com</a> and report this</h1>
                                     <!-- <% if (locals.blogList) { %>
                                         <% for( let index=0; index < blogList.length; index++ ) { %>
                                             <div class="blog-card">

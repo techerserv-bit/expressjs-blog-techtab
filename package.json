@@ -1,20 +1,19 @@
 {
-  "name": "blog-app-in-express",
-  "version": "1.0.0",
-  "description": "this is blog create app",
+  "name": "techservit-blog-app",
+  "version": "1.0.1",
+  "description": "this is tech blog app",
   "main": "index.js",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js"
   },
-  "author": "",
+  "author": "techservit.co.za",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.20.2",
     "ejs": "^3.1.9",
     "express": "^4.18.2",
-    "mongodb": "^6.10.0",
     "mongoose": "^8.7.3"
   }
 }
