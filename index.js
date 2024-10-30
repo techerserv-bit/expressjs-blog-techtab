@@ -2,9 +2,11 @@ import express from "express";
 import { dirname, join } from "path";
 import { fileURLToPath } from "url";
 import bodyParser from "body-parser";
+import { mongoose } from "mongoose";
 
 const app = express();
 const port = 7000;
+mongoose.set("strictQuery", false);
 
 // Configure Express middleware
 app.use(express.static("public"));
@@ -19,6 +21,24 @@ const blogDetailsPath = join(__dirname, "views/blogDetails.ejs");
 // Initialize blog list
 let blogList = [];
 
+// Connect to Mongodb
+mongoose.connect("mongodb+srv://techserv20:6stJikPdLeKhVpUf@tsbit.eisfnnw.mongodb.net/blog").then(()=>{
+  console.log("MongoDB service running")
+}).catch((err)=>{
+  console.log(err);
+});
+
+// Schema
+const bPostsSchema = new mongoose.Schema({
+  fid: String,
+  title: String,
+  description: String,
+  timestamp: String
+})
+
+// Schema model
+const bPostModel = mongoose.model("blogposts", bPostsSchema);
+
 // Render index page
 app.get("/", (req, res) => {
   res.render(indexPath);
@@ -26,8 +46,22 @@ app.get("/", (req, res) => {
 
 // Render home page with blog list
 app.get("/home", (req, res) => {
-  res.render(homePath, {
-    blogList: blogList,
+  // res.render(homePath, {
+  //   blogList: blogList,
+  // });
+  // Read the entire collection
+  bPostModel.find({})
+  .then(posts => {
+    // console.log('blogposts:', posts);
+    // const dbData = JSON.parse(posts)
+    res.render(homePath, {
+      blogList: blogList,
+      // checklist,
+      posts
+    });
+  })
+  .catch(error => {
+    console.log('Error fetching MongoDB collection:', error);
   });
 });
 
@@ -36,7 +70,7 @@ app.post("/home", (req, res) => {
   const blogTitle = req.body.blogTitle;
   const blogDescription = req.body.blogDes;
   blogList.push({
-    id: generateID(),
+    fid: generateID(),
     title: blogTitle,
     description: blogDescription,
   });
@@ -94,12 +128,21 @@ app.post("/edit/:id", (req, res) => {
   });
 });
 
-// Start the server
-app.listen(port, () => {
-  console.log(`Listening on port ${port}`);
-});
-
 // Function to generate random ID
 function generateID() {
   return Math.floor(Math.random() * 10000);
 }
+
+// Start the server
+app.listen(port, () => {
+  console.log(`Listening on port ${port}`);
+  
+});
+
+// const start  = async () => {
+  // await mongoose.connect('mongodb+srv://techserv20:6stJikPdLeKhVpUf@tsbit.eisfnnw.mongodb.net/sample_mflix');
+
+  // use `await mongoose.connect('mongodb://user:password@127.0.0.1:27017/test');` if your database has auth enabled
+// }
+
+// start()
