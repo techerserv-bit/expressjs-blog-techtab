@@ -69,14 +69,41 @@ app.get("/home", (req, res) => {
 app.post("/home", (req, res) => {
   const blogTitle = req.body.blogTitle;
   const blogDescription = req.body.blogDes;
+
+  bPostModel.find({})
+  .then(posts => {
+    // console.log('blogposts:', posts);
+    // const dbData = JSON.parse(posts)
+    // res.render(homePath, {
+    //   // blogList: blogList,
+    //   posts
+    // });
+    res.render(homePath, {
+      blogList: blogList,
+      posts
+    });
+  })
+  .catch(error => {
+    console.log('Error fetching MongoDB collection:', error);
+  });
+
   blogList.push({
     fid: generateID(),
     title: blogTitle,
     description: blogDescription,
   });
-  res.render(homePath, {
-    blogList: blogList,
-  });
+
+  const newPost = new bPostModel({
+    title: blogTitle,
+    description: blogDescription,
+    timestamp: new Date().toLocaleDateString() +" "+ new Date().toLocaleTimeString()
+  })
+
+  // Save the user to the database
+  newPost.save()
+  .then(() => console.log('User saved!'))
+  .catch((error) => console.log('Error saving user:', error));
+
 });
 
 // Delete a blog
